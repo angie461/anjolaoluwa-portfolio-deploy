@@ -10,7 +10,7 @@ export const siteConfig = {
   otherSocials: [] as { label: string; url: string }[],
   availability: 'Available for select projects',
   // Web3Forms access key (public by design; it only routes messages to the email above). Leave '' to disable sending.
-  formAccessKey: '',
+  formAccessKey: '29f395ba-48df-40a2-8383-379e2ef7bd4c',
   // Google Calendar appointment schedule embed link (the src from 'Inline booking page'). Leave '' to hide the booking section.
   bookingUrl: '',
 }

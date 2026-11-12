@@ -34,6 +34,7 @@ export const portfolioSamples: SampleGroup[] = [
     service: 'crm-automation', category: 'Workflow Builds', title: 'Automation workflow builds',
     description: 'Workflow editor captures showing triggers, actions, branching and automation sequence layouts.',
     items: [
+      sample('automation-workflows/missed-call-text-back.jpg', 'Missed Call Text-Back workflow in GoHighLevel: SMS, 5-minute wait, follow-up email and task'),
       ...numbered([
       ...Array.from({ length: 17 }, (_, i) => `automation-workflows/workflow ${i + 1}.jpg`),
       'automation-workflows/worklow 6.jpg',

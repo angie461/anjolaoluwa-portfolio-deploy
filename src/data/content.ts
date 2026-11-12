@@ -28,7 +28,22 @@ export const projects: Project[] = services.map((service, index) => ({
 
 // The supplied video is displayed without an invented speaker name, quote, rating, or result.
 // The client review keeps its original sound and is embedded from YouTube (link set in videoLinks.ts).
-export type Testimonial = { type: 'written' | 'image' | 'video'; quote?: string; name?: string; role?: string; src?: string; youtube?: string; poster?: string; service?: string }
+export type Testimonial = { type: 'written' | 'image' | 'video'; quote?: string; name?: string; role?: string; src?: string; youtube?: string; poster?: string; service?: string; rating?: number; period?: string; source?: string; proof?: string; featured?: boolean }
+
+// Upwork reviews: quoted exactly as the client wrote them. `name` is the Upwork job title (Upwork does not show client names).
+// Screenshots live in public/testimonials/upwork/ with contract amounts cropped out.
+const upwork = (name: string, rating: number, period: string, quote: string, proof: string, service: string, featured = false): Testimonial =>
+  ({ type: 'written', name, rating, period, quote, proof: `/testimonials/upwork/${proof}.jpg`, service, source: 'Upwork', featured })
+
 export const testimonials: Testimonial[] = [
   ...(siteVideos.clientTestimonial.youtube ? [{ type: 'video' as const, youtube: siteVideos.clientTestimonial.youtube, name: 'Anterric Maxey' }] : []),
+  upwork('Go High Level Admin for Landing Page Design for Social Media and Automation', 5, 'Mar–Aug 2025', 'Hard working, very knowledgeable. Highly recommend.', 'review-ghl-landing-page', 'websites-funnels'),
+  upwork('Seeking Experienced VA for REIReply Workflows & Real Estate Lead Management', 4.9, 'Mar 2025', 'I loved her work. She was consistently stayed in communication with me throughout the whole process. The thing that I love about her the most is that she ahead of my understanding of the project and even delivered earlier than the task time projected. I will definitely rehire hire for further work in the future.', 'review-reireply-va', 'crm-automation', true),
+  upwork('EngageBay to GHL migration', 5, 'Jan–Feb 2025', 'Anjolaoluwa did a great job, very professional, would hire again', 'review-engagebay-migration', 'crm-automation'),
+  upwork('ReiReply Workflow Expert', 5, 'Dec 2024–Jan 2025', 'excellent hire! completed every task on time and helped out even after the project was complete to ensure quality!', 'review-reireply-workflow-1', 'crm-automation'),
+  upwork('ReiReply Workflow Expert', 5, 'Nov–Dec 2024', 'If you want it done right and on time then hire her!', 'review-reireply-workflow-2', 'crm-automation', true),
+  upwork('GoHighLevel Chatbot Troubleshooting Needed - Quick Fix', 5, 'Apr 2024', 'Anjolaoluwa was a lifesaver! My GoHighLevel chatbot was on the fritz, and she quickly diagnosed the issue and pointed me in the right direction for a fix. Highly recommend!', 'review-ghl-chatbot', 'ai-automation', true),
+  upwork('GoHighLevel & IDX: Need Quick Pointers', 5, 'Apr 2024', 'Anjolaoluwa was super helpful in my initial exploration of IDX for my website! She offered valuable insights on platforms that integrate well with GoHighLevel, saving me time researching on my own. Definitely recommend her for GoHighLevel consultations', 'review-ghl-idx', 'integrations'),
+  upwork('Klaviyo expert needed', 5, 'Mar–Apr 2023', 'Anjolaoluwa helped me to create a Klaviyo flow and she did exceptional work. she is a professional who is knowledgeable, skilled, and passionate about her craft.', 'review-klaviyo', 'email-marketing'),
 ]
+export const featuredReviews = testimonials.filter(item => item.featured)

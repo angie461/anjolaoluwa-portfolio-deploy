@@ -113,3 +113,18 @@ body{font-size:16px;line-height:1.65}
 .footer-bottom .back-top:hover{color:var(--orange)}.footer-bottom .back-top svg{color:var(--orange)}
 @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:36px 28px}.footer-brand{grid-column:1/-1;max-width:none}}
 @media(max-width:520px){.footer{padding-top:48px}.footer-grid{grid-template-columns:1fr;gap:30px}.footer-bottom{flex-direction:column;align-items:flex-start}}
+
+/* Written client reviews (Upwork): quote, rating, project, and the original screenshot as proof. */
+.review-card{display:block}
+.review-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:16px;font-size:13px;color:rgba(255,255,255,.55)}
+.review-stars{display:inline-flex;align-items:center;gap:7px;color:var(--orange);letter-spacing:.12em;font-size:15px}.review-stars b{color:#fff;font-size:13px;letter-spacing:0}
+.review-card blockquote{margin:0 0 14px;font:500 clamp(17px,2vw,21px)/1.6 var(--font-head);letter-spacing:-.02em;color:rgba(255,255,255,.88)}
+.review-project{font-size:13px;color:rgba(255,255,255,.5);margin:0}
+.review-proof{display:block;margin-top:18px;max-width:560px;border:1px solid var(--line);opacity:.9;transition:opacity .2s,border-color .2s}
+.review-proof:hover{opacity:1;border-color:rgba(255,101,51,.5)}.review-proof img{width:100%;height:auto}
+.home-review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+.home-review-grid .review-card{margin:0;padding:24px;max-width:none}
+.home-review-grid .review-card blockquote{font-size:16px;line-height:1.65}
+.testimonial-library{display:grid;gap:18px}.testimonial-library .quote-card{margin:0}
+.service-testimonials .review-card{max-width:900px}
+@media(max-width:900px){.home-review-grid{grid-template-columns:1fr}}

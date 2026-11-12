@@ -2,13 +2,14 @@ import { useEffect, useState, type ReactNode } from 'react'
 import './App.css'
 import { motion } from 'framer-motion'
 import { siteConfig } from './data/siteConfig'
-import { platforms, services } from './data/content'
+import { featuredReviews, platforms, services } from './data/content'
 import { AboutPage, ContactPage, NotFound, PageShell, PortfolioPage, ServicesNavMenu, ServicesPage, TestimonialsPage } from './RoutePages'
 import { getPortfolioSamples } from './data/portfolioSamples'
 import { MediaGallery } from './components/MediaGallery'
 import { SocialIcon } from './components/SocialIcon'
 import { YouTubeEmbed } from './components/YouTubeEmbed'
 import { ContactForm } from './components/ContactForm'
+import { TestimonialCard } from './components/TestimonialCard'
 import { SiteFooter } from './components/SiteFooter'
 import { siteVideos, youtubeId } from './data/videoLinks'
 import {
@@ -81,7 +82,7 @@ function HomePage() {
 
       <section className="value-section section-pad"><div className="section-wrap value-layout"><div><p className="eyebrow">WHY WORK WITH ME</p><h2>Clear thinking.<br /><em>Careful doing.</em></h2><p className="value-intro">I bring marketing and technology together to solve the actual problem in front of your business.</p></div><div className="value-grid">{values.map(({ icon: Icon, title, text }, i) => <article className="value-item" key={title}><span>0{i + 1}</span><Icon size={21} /><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
 
-      <section className="testimonials section-wrap section-pad"><div className="testimonial-head"><div><p className="eyebrow">KIND WORDS</p><h2>Client experiences <em>in their words.</em></h2></div><a className="placeholder-label" href="/testimonials"><Quote size={16} /> VIEW TESTIMONIALS</a></div>{youtubeId(siteVideos.clientTestimonial.youtube) && <div className="home-testimonial-video"><YouTubeEmbed url={siteVideos.clientTestimonial.youtube} title="Client video testimonial" /><p>Video testimonial · Anterric Maxey</p></div>}</section>
+      <section className="testimonials section-wrap section-pad"><div className="testimonial-head"><div><p className="eyebrow">KIND WORDS</p><h2>Client experiences <em>in their words.</em></h2></div><a className="placeholder-label" href="/testimonials"><Quote size={16} /> VIEW TESTIMONIALS</a></div>{youtubeId(siteVideos.clientTestimonial.youtube) && <div className="home-testimonial-video"><YouTubeEmbed url={siteVideos.clientTestimonial.youtube} title="Client video testimonial" /><p>Video testimonial · Anterric Maxey</p></div>}{featuredReviews.length > 0 && <div className="home-review-grid">{featuredReviews.map((item, i) => <TestimonialCard key={`${item.proof}-${i}`} item={item} compact />)}</div>}</section>
 
       <section id="contact" className="contact section-pad"><div className="section-wrap contact-layout"><div className="contact-copy"><p className="eyebrow">LET’S BUILD SOMETHING USEFUL</p><h2>Have a project in mind? <em>Let’s make it happen.</em></h2><p>Tell me what you are working on. Share as much or as little as you like and we can take it from there.</p><div className="contact-details">{siteConfig.email ? <a href={`mailto:${siteConfig.email}`}><Mail size={17} /><span><small>EMAIL</small>{siteConfig.email}</span><ArrowUpRight size={15} /></a> : <p className="form-note">Add your email in <code>src/data/siteConfig.ts</code>.</p>}<a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={17} /><span><small>WHATSAPP</small>+234 705 728 9672 · Message on WhatsApp</span><ArrowUpRight size={15} /></a><a href={siteConfig.upwork} target="_blank" rel="noreferrer"><Briefcase size={17} /><span><small>UPWORK</small>Hire me on Upwork</span><ArrowUpRight size={15} /></a>{siteConfig.bookingUrl && <a href="/contact#book"><CalendarDays size={17} /><span><small>BOOK A CALL</small>Pick a time that suits you</span><ArrowUpRight size={15} /></a>}<div className="social-links"><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" /></a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" /></a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" /></a><a href={siteConfig.upwork} target="_blank" rel="noreferrer" aria-label="Upwork"><Briefcase size={16} /></a>{siteConfig.otherSocials.map(social => <a href={social.url} key={social.label} target="_blank" rel="noreferrer">{social.label}</a>)}</div></div></div>
         <ContactForm id="contact-form" />

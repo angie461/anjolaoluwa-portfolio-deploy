@@ -9,10 +9,11 @@ import { MediaGallery } from './components/MediaGallery'
 import { SocialIcon } from './components/SocialIcon'
 import { YouTubeEmbed } from './components/YouTubeEmbed'
 import { ContactForm } from './components/ContactForm'
+import { SiteFooter } from './components/SiteFooter'
 import { siteVideos, youtubeId } from './data/videoLinks'
 import {
   ArrowDown, ArrowUpRight, Menu, X, Mail, MessageCircle, Briefcase, CalendarDays,
-  Sparkles, Quote, Layers3, Target, Zap, ShieldCheck, HeartHandshake,
+  Sparkles, Quote, Layers3, Target, Zap, ShieldCheck,
 } from 'lucide-react'
 
 const values = [
@@ -86,7 +87,7 @@ function HomePage() {
         <ContactForm id="contact-form" />
       </div></section>
 
-      <footer className="footer"><div className="section-wrap"><div className="footer-top"><div className="footer-brand"><a className="brand" href="/"><img src="/logo.jpg" alt="" /><span>{siteConfig.name}</span></a><p>{siteConfig.description}</p></div><div className="footer-nav"><span>EXPLORE</span><div>{[['About', '/about'], ['Services', '/services'], ['Portfolio', '/portfolio'], ['Testimonials', '/testimonials'], ['Contact', '/contact']].map(([n, h]) => <a href={h} key={n}>{n}</a>)}</div><div className="footer-contact-links"><a href={`mailto:${siteConfig.email}`}><Mail size={15} /> {siteConfig.email}</a><a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={15} /> +234 705 728 9672 · WhatsApp</a><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" size={15} /> Instagram</a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" size={15} /> Facebook</a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" size={15} /> LinkedIn</a><a href={siteConfig.upwork} target="_blank" rel="noreferrer"><Briefcase size={15} /> Upwork</a></div></div><a href="#home" className="back-top">BACK TO TOP <ArrowUpRight size={15} /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span><span>Built with intention <HeartHandshake size={14} /></span></div></div></footer>
+      <SiteFooter topId="home" />
     </main>
   )
 }

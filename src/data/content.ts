@@ -30,5 +30,5 @@ export const projects: Project[] = services.map((service, index) => ({
 // The client review keeps its original sound and is embedded from YouTube (link set in videoLinks.ts).
 export type Testimonial = { type: 'written' | 'image' | 'video'; quote?: string; name?: string; role?: string; src?: string; youtube?: string; poster?: string; service?: string }
 export const testimonials: Testimonial[] = [
-  ...(siteVideos.clientTestimonial.youtube ? [{ type: 'video' as const, youtube: siteVideos.clientTestimonial.youtube }] : []),
+  ...(siteVideos.clientTestimonial.youtube ? [{ type: 'video' as const, youtube: siteVideos.clientTestimonial.youtube, name: 'Anterric Maxey' }] : []),
 ]

@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import './App.css'
 import { motion } from 'framer-motion'
 import { siteConfig } from './data/siteConfig'
@@ -8,9 +8,10 @@ import { getPortfolioSamples } from './data/portfolioSamples'
 import { MediaGallery } from './components/MediaGallery'
 import { SocialIcon } from './components/SocialIcon'
 import { YouTubeEmbed } from './components/YouTubeEmbed'
+import { ContactForm } from './components/ContactForm'
 import { siteVideos, youtubeId } from './data/videoLinks'
 import {
-  ArrowDown, ArrowUpRight, Menu, X, Mail, MessageCircle, Send,
+  ArrowDown, ArrowUpRight, Menu, X, Mail, MessageCircle, Briefcase, CalendarDays,
   Sparkles, Quote, Layers3, Target, Zap, ShieldCheck, HeartHandshake,
 } from 'lucide-react'
 
@@ -26,15 +27,8 @@ const featuredSamples = [getPortfolioSamples('crm-automation')[0]!, getPortfolio
 
 function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [formError, setFormError] = useState('')
   const closeMenu = () => setMenuOpen(false)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const form = event.currentTarget
-    if (!form.reportValidity()) return
-    setFormError('This form is not connected to email delivery yet, so your message was not sent. Please contact me by email or WhatsApp below.')
-  }
 
   return (
     <main id="home" className="site-shell">
@@ -43,10 +37,10 @@ function HomePage() {
             <a href="/" className="brand" onClick={closeMenu}><img src="/logo.jpg" alt="Anjolaoluwa Adekola logo" /><span>Anjolaoluwa Adekola</span></a>
           <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
             {[['Home', '/'], ['About', '/about']].map(([label, href]) => <a key={label} href={href} onClick={closeMenu}>{label}</a>)}
-            <ServicesNavMenu />
+            <ServicesNavMenu key={menuOpen ? 'menu-open' : 'menu-closed'} onNavigate={closeMenu} />
             {[['Portfolio', '/portfolio'], ['Testimonials', '/testimonials'], ['Contact', '/contact']].map(([label, href]) => <a key={label} href={href} onClick={closeMenu}>{label}</a>)}
           </div>
-          <a className="button button-small nav-cta" href="/contact">Let’s Work Together <ArrowUpRight size={16} /></a>
+          <a className="button button-small nav-cta" href="/contact" onClick={closeMenu}><span className="nav-cta-full">Let’s Work Together</span><span className="nav-cta-short">Let’s Talk</span> <ArrowUpRight size={16} /></a>
           <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         </nav>
       </header>
@@ -86,13 +80,13 @@ function HomePage() {
 
       <section className="value-section section-pad"><div className="section-wrap value-layout"><div><p className="eyebrow">WHY WORK WITH ME</p><h2>Clear thinking.<br /><em>Careful doing.</em></h2><p className="value-intro">I bring marketing and technology together to solve the actual problem in front of your business.</p></div><div className="value-grid">{values.map(({ icon: Icon, title, text }, i) => <article className="value-item" key={title}><span>0{i + 1}</span><Icon size={21} /><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
 
-      <section className="testimonials section-wrap section-pad"><div className="testimonial-head"><div><p className="eyebrow">KIND WORDS</p><h2>Client experiences <em>in their words.</em></h2></div><a className="placeholder-label" href="/testimonials"><Quote size={16} /> VIEW TESTIMONIALS</a></div>{youtubeId(siteVideos.clientTestimonial.youtube) && <div className="home-testimonial-video"><YouTubeEmbed url={siteVideos.clientTestimonial.youtube} title="Client video testimonial" /><p>Video testimonial · Client identity not provided</p></div>}</section>
+      <section className="testimonials section-wrap section-pad"><div className="testimonial-head"><div><p className="eyebrow">KIND WORDS</p><h2>Client experiences <em>in their words.</em></h2></div><a className="placeholder-label" href="/testimonials"><Quote size={16} /> VIEW TESTIMONIALS</a></div>{youtubeId(siteVideos.clientTestimonial.youtube) && <div className="home-testimonial-video"><YouTubeEmbed url={siteVideos.clientTestimonial.youtube} title="Client video testimonial" /><p>Video testimonial · Anterric Maxey</p></div>}</section>
 
-      <section id="contact" className="contact section-pad"><div className="section-wrap contact-layout"><div className="contact-copy"><p className="eyebrow">LET’S BUILD SOMETHING USEFUL</p><h2>Have a project in mind? <em>Let’s make it happen.</em></h2><p>Tell me what you are working on. Share as much or as little as you like and we can take it from there.</p><div className="contact-details">{siteConfig.email ? <a href={`mailto:${siteConfig.email}`}><Mail size={17} /><span><small>EMAIL</small>{siteConfig.email}</span><ArrowUpRight size={15} /></a> : <p className="form-note">Add your email in <code>src/data/siteConfig.ts</code>.</p>}<a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={17} /><span><small>WHATSAPP</small>+234 705 728 9672 · Message on WhatsApp</span><ArrowUpRight size={15} /></a><div className="social-links"><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" /></a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" /></a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" /></a>{siteConfig.otherSocials.map(social => <a href={social.url} key={social.label} target="_blank" rel="noreferrer">{social.label}</a>)}</div></div></div>
-        <form id="contact-form" className="contact-form" onSubmit={handleSubmit} onInvalid={() => setFormError('Please check the highlighted fields and try again.')} noValidate={false}><div className="form-heading"><span>01</span><h3>Tell me about your project</h3></div><div className="form-row"><label>Full name<input name="name" type="text" placeholder="Your name" autoComplete="name" required minLength={2} /></label><label>Email address<input name="email" type="email" placeholder="you@company.com" autoComplete="email" required /></label></div><div className="form-row"><label>Company name <small>OPTIONAL</small><input name="company" type="text" placeholder="Your company" autoComplete="organization" /></label><label>Service required<select name="service" defaultValue="" required><option value="" disabled>Select a service</option>{services.map(s => <option key={s.title}>{s.title}</option>)}<option>Something else</option></select></label></div><label>Project description<textarea name="description" placeholder="What would you like to improve or build?" rows={4} required minLength={15} /></label><button className="button submit-button" type="submit">Send project enquiry <Send size={16} /></button><p className="form-note">This form is a front-end demo and is not connected to email yet. Your details will not be sent.</p>{formError && <p className="form-feedback error" role="alert">{formError}</p>}</form>
+      <section id="contact" className="contact section-pad"><div className="section-wrap contact-layout"><div className="contact-copy"><p className="eyebrow">LET’S BUILD SOMETHING USEFUL</p><h2>Have a project in mind? <em>Let’s make it happen.</em></h2><p>Tell me what you are working on. Share as much or as little as you like and we can take it from there.</p><div className="contact-details">{siteConfig.email ? <a href={`mailto:${siteConfig.email}`}><Mail size={17} /><span><small>EMAIL</small>{siteConfig.email}</span><ArrowUpRight size={15} /></a> : <p className="form-note">Add your email in <code>src/data/siteConfig.ts</code>.</p>}<a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={17} /><span><small>WHATSAPP</small>+234 705 728 9672 · Message on WhatsApp</span><ArrowUpRight size={15} /></a><a href={siteConfig.upwork} target="_blank" rel="noreferrer"><Briefcase size={17} /><span><small>UPWORK</small>Hire me on Upwork</span><ArrowUpRight size={15} /></a>{siteConfig.bookingUrl && <a href="/contact#book"><CalendarDays size={17} /><span><small>BOOK A CALL</small>Pick a time that suits you</span><ArrowUpRight size={15} /></a>}<div className="social-links"><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" /></a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" /></a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" /></a><a href={siteConfig.upwork} target="_blank" rel="noreferrer" aria-label="Upwork"><Briefcase size={16} /></a>{siteConfig.otherSocials.map(social => <a href={social.url} key={social.label} target="_blank" rel="noreferrer">{social.label}</a>)}</div></div></div>
+        <ContactForm id="contact-form" />
       </div></section>
 
-      <footer className="footer"><div className="section-wrap"><div className="footer-top"><div className="footer-brand"><a className="brand" href="/"><img src="/logo.jpg" alt="" /><span>{siteConfig.name}</span></a><p>{siteConfig.description}</p></div><div className="footer-nav"><span>EXPLORE</span><div>{[['About', '/about'], ['Services', '/services'], ['Portfolio', '/portfolio'], ['Testimonials', '/testimonials'], ['Contact', '/contact']].map(([n, h]) => <a href={h} key={n}>{n}</a>)}</div><div className="footer-contact-links"><a href={`mailto:${siteConfig.email}`}><Mail size={15} /> {siteConfig.email}</a><a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={15} /> +234 705 728 9672 · WhatsApp</a><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" size={15} /> Instagram</a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" size={15} /> Facebook</a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" size={15} /> LinkedIn</a></div></div><a href="#home" className="back-top">BACK TO TOP <ArrowUpRight size={15} /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span><span>Built with intention <HeartHandshake size={14} /></span></div></div></footer>
+      <footer className="footer"><div className="section-wrap"><div className="footer-top"><div className="footer-brand"><a className="brand" href="/"><img src="/logo.jpg" alt="" /><span>{siteConfig.name}</span></a><p>{siteConfig.description}</p></div><div className="footer-nav"><span>EXPLORE</span><div>{[['About', '/about'], ['Services', '/services'], ['Portfolio', '/portfolio'], ['Testimonials', '/testimonials'], ['Contact', '/contact']].map(([n, h]) => <a href={h} key={n}>{n}</a>)}</div><div className="footer-contact-links"><a href={`mailto:${siteConfig.email}`}><Mail size={15} /> {siteConfig.email}</a><a href={siteConfig.whatsappUrl} target="_blank" rel="noreferrer"><MessageCircle size={15} /> +234 705 728 9672 · WhatsApp</a><a href={siteConfig.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><SocialIcon network="instagram" size={15} /> Instagram</a><a href={siteConfig.facebook} target="_blank" rel="noreferrer" aria-label="Facebook"><SocialIcon network="facebook" size={15} /> Facebook</a><a href={siteConfig.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><SocialIcon network="linkedin" size={15} /> LinkedIn</a><a href={siteConfig.upwork} target="_blank" rel="noreferrer"><Briefcase size={15} /> Upwork</a></div></div><a href="#home" className="back-top">BACK TO TOP <ArrowUpRight size={15} /></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span><span>Built with intention <HeartHandshake size={14} /></span></div></div></footer>
     </main>
   )
 }

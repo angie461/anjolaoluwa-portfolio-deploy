@@ -55,7 +55,10 @@ export function getServiceFaqs(service: Service): Faq[] {
 }
 
 // ---------- JSON-LD ----------
+// Business profiles (used for both the person and the business).
 const sameAs = [siteConfig.linkedin, siteConfig.upwork, siteConfig.instagram, siteConfig.facebook, ...siteConfig.otherSocials.map(s => s.url)].filter(Boolean)
+// The person also links to the personal profiles (not shown on the page).
+const personSameAs = [...sameAs, siteConfig.personalInstagram, siteConfig.personalFacebook].filter(Boolean)
 const phone = siteConfig.whatsappUrl.match(/wa\.me\/(\d+)/)?.[1]
 const ids = { person: `${SITE}/#person`, website: `${SITE}/#website`, business: `${SITE}/#business` }
 
@@ -70,7 +73,7 @@ const person = () => ({
   url: absoluteUrl('/'),
   email: `mailto:${siteConfig.email}`,
   address: { '@type': 'PostalAddress', addressCountry: siteConfig.basedIn.countryCode },
-  sameAs,
+  sameAs: personSameAs,
   knowsAbout: [...services.map(s => s.title), ...platforms],
 })
 const personRef = { '@id': ids.person }

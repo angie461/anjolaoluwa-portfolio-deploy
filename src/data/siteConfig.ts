@@ -9,8 +9,13 @@ export const siteConfig = {
   description: 'Digital marketing, CRM, automation and connected systems that help businesses grow.',
   email: 'adekolaanjolaoluwablessing@gmail.com',
   whatsappUrl: 'https://wa.me/2347057289672?text=Hello%20Anjolaoluwa%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.',
-  instagram: 'https://www.instagram.com/anjolaoluwa_blessing/',
-  facebook: 'https://www.facebook.com/share/1MLZXfP2Ks/',
+  // Business accounts: shown on the site (footer, contact page) and listed in llms.txt.
+  instagram: 'https://www.instagram.com/anjolaoluwa_adekola/',
+  instagramHandle: '@anjolaoluwa_adekola',
+  facebook: 'https://www.facebook.com/anjolaoluwaadekola01',
+  // Personal accounts: not shown on the page; only listed in the Person structured data for search engines.
+  personalInstagram: 'https://www.instagram.com/anjolaoluwa_blessing/',
+  personalFacebook: 'https://www.facebook.com/share/1MLZXfP2Ks/',
   linkedin: 'https://www.linkedin.com/in/adekola-anjolaoluwa-blessing',
   upwork: 'https://www.upwork.com/freelancers/anjolaoluwa',
   otherSocials: [] as { label: string; url: string }[],

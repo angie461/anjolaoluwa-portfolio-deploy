@@ -12,6 +12,9 @@ export const services: Service[] = [
   { slug: 'virtual-assistance', title: 'Virtual Assistance & Marketing', description: 'Get reliable digital marketing and day-to-day operational support to keep your business systems running smoothly.', intro: 'Bring dependable digital support to the work that keeps your marketing and operations moving.', problems: ['Routine digital tasks compete with high-value work.', 'Marketing activity is inconsistent week to week.', 'Business processes need thoughtful ongoing support.'], offers: ['Virtual assistance and digital operations', 'Social media management', 'Digital marketing support', 'Business process coordination'], tools: ['Social platforms', 'Marketing tools', 'CRM systems', 'Operations workflows'], icon: Megaphone },
 ]
 
+// The four steps shown on every service page (also used in the service FAQs).
+export const processSteps = ['Understand your goals', 'Map the right solution', 'Build and connect', 'Review and refine']
+
 export const platforms = ['GoHighLevel', 'HubSpot', 'Salesforce', 'n8n', 'Make.com', 'Zapier', 'Klaviyo', 'Mailgun', 'Twilio', 'Shopify', 'BigCommerce', 'Wix', 'Apollo.io', 'Clay.com', 'ManyChat', 'Vapi AI']
 export type Project = { slug: string; service: string; title: string; category: string; overview: string; challenge: string; solution: string; tools: string[]; images: string[]; video?: string; outcomes?: string[]; client?: string }
 export const projects: Project[] = services.map((service, index) => ({

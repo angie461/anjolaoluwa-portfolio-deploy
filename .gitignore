@@ -28,3 +28,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Private notes for Claude Code (kept off the public repo)
+CLAUDE.md

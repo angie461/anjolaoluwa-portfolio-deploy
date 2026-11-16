@@ -11,7 +11,9 @@ import { YouTubeEmbed } from './components/YouTubeEmbed'
 import { ContactForm } from './components/ContactForm'
 import { TestimonialCard } from './components/TestimonialCard'
 import { SiteFooter } from './components/SiteFooter'
+import { StatsRow } from './components/StatsRow'
 import { siteVideos, youtubeId } from './data/videoLinks'
+import { applyHeadTags, getRouteMeta, normalizePath } from './seo/seo'
 import {
   ArrowDown, ArrowUpRight, Menu, X, Mail, MessageCircle, Briefcase, CalendarDays,
   Sparkles, Quote, Layers3, Target, Zap, ShieldCheck,
@@ -51,18 +53,20 @@ function HomePage() {
         <div className="hero-glow" />
         <motion.div className="hero-copy" initial="hidden" animate="visible" variants={appear} transition={{ duration: .65, staggerChildren: .12 }}>
           <motion.p className="eyebrow" variants={appear}><span className="availability-dot" /> DIGITAL MARKETING · AUTOMATION · SYSTEMS</motion.p>
-          <motion.p className="hero-name" variants={appear}>Anjolaoluwa Adekola <span>— Digital solutions professional</span></motion.p>
-          <motion.h1 variants={appear}>Building smarter systems. Connecting technology. <em>Driving business growth.</em></motion.h1>
-          <motion.p className="hero-intro" variants={appear}>I help businesses simplify operations, connect their tools and turn more opportunities into growth through digital marketing, CRM and automation.</motion.p>
+          <motion.h1 className="hero-name" variants={appear}>{siteConfig.fullName} <span>— {siteConfig.jobTitle}</span></motion.h1>
+          <motion.p className="hero-title" variants={appear}>Building smarter systems. Connecting technology. <em>Driving business growth.</em></motion.p>
+          <motion.p className="hero-intro" variants={appear}>{siteConfig.name} is a CRM, automation and digital marketing specialist who helps businesses simplify operations, connect their tools and turn more opportunities into growth.</motion.p>
           <motion.div className="hero-actions" variants={appear}><a href="/contact" className="button">Work With Me</a><a href="/portfolio" className="text-link">Explore My Work <ArrowDown size={16} /></a></motion.div>
           <motion.div className="hero-footnote" variants={appear}><span className="availability-status"><i aria-hidden="true" /><span>{siteConfig.availability}</span></span><span className="footnote-separator" /><span>Strategy <b>·</b> Technology <b>·</b> Growth</span></motion.div>
         </motion.div>
         <motion.div className="portrait-wrap" initial={{ opacity: 0, x: 26 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .8, delay: .22 }}>
-          <div className="portrait-outline" /><div className="portrait-frame"><img src="/profile.jpg" alt="Anjolaoluwa Adekola" /><div className="portrait-shade" /><div className="portrait-caption"><span className="caption-mark">AA</span><span><strong>Systems-minded.</strong><small>Growth-focused.</small></span><ArrowUpRight size={19} /></div></div>
+          <div className="portrait-outline" /><div className="portrait-frame"><img src="/profile.jpg" alt={`Portrait of ${siteConfig.name}, ${siteConfig.jobTitle}`} fetchPriority="high" /><div className="portrait-shade" /><div className="portrait-caption"><span className="caption-mark">AA</span><span><strong>Systems-minded.</strong><small>Growth-focused.</small></span><ArrowUpRight size={19} /></div></div>
           <div className="portrait-note"><Sparkles size={15} /> Marketing meets technology</div>
         </motion.div>
         <a className="scroll-cue" href="#about"><span>SCROLL TO EXPLORE</span><ArrowDown size={15} /></a>
       </section>
+
+      <StatsRow />
 
       <section id="about" className="about section-wrap section-pad">
         <div className="about-label"><p className="eyebrow">A LITTLE ABOUT ME</p></div>
@@ -93,10 +97,11 @@ function HomePage() {
   )
 }
 
-function RoutedApp() {
-  const [path, setPath] = useState(() => window.location.pathname.replace(/\/$/, '') || '/')
+// initialPath is the page's URL path: from the browser, or from the prerender script at build time.
+function RoutedApp({ initialPath }: { initialPath: string }) {
+  const [path, setPath] = useState(() => normalizePath(initialPath))
   useEffect(() => {
-    const onPopState = () => setPath(window.location.pathname.replace(/\/$/, '') || '/')
+    const onPopState = () => setPath(normalizePath(window.location.pathname))
     const onClick = (event: MouseEvent) => {
       const anchor = (event.target as HTMLElement).closest('a')
       if (!anchor || anchor.target || anchor.origin !== window.location.origin || !anchor.pathname.startsWith('/')) return
@@ -104,24 +109,15 @@ function RoutedApp() {
       if (anchor.pathname === window.location.pathname && anchor.hash) return
       event.preventDefault()
       window.history.pushState({}, '', `${anchor.pathname}${anchor.search}${anchor.hash}`)
-      setPath(anchor.pathname.replace(/\/$/, '') || '/')
+      setPath(normalizePath(anchor.pathname))
       window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
     }
     window.addEventListener('popstate', onPopState)
     document.addEventListener('click', onClick)
     return () => { window.removeEventListener('popstate', onPopState); document.removeEventListener('click', onClick) }
   }, [])
-  useEffect(() => {
-    const routeTitles: Record<string, string> = { '/': 'Digital Marketing & Automation', '/about': 'About', '/services': 'Services', '/portfolio': 'Portfolio', '/contact': 'Contact', '/testimonials': 'Testimonials' }
-    const leaf = path.split('/').filter(Boolean).at(-1)?.replaceAll('-', ' ')
-    document.title = `${leaf ? (routeTitles[path] || leaf.replace(/\b\w/g, char => char.toUpperCase())) : routeTitles['/']} | ${siteConfig.name}`
-    const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-    if (description) description.content = `${siteConfig.name} — ${routeTitles[path] || leaf || 'Digital marketing, CRM and automation services'}. ${siteConfig.description}`
-    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
-    const ogDescription = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
-    if (ogTitle) ogTitle.content = document.title
-    if (ogDescription && description) ogDescription.content = description.content
-  }, [path])
+  // Title, description, canonical, social tags and structured data for the current page (src/seo/seo.ts).
+  useEffect(() => { applyHeadTags(getRouteMeta(path)) }, [path])
   let content: ReactNode
   if (path === '/') return <HomePage />
   if (path === '/about') content = <AboutPage />

@@ -1,5 +1,11 @@
 export const siteConfig = {
   name: 'Anjolaoluwa Adekola',
+  // Used for search engines and AI tools (structured data, page titles, llms.txt).
+  fullName: 'Anjolaoluwa Blessing Adekola',
+  alternateNames: ['Anjolaoluwa Blessing Adekola', 'Adekola Anjolaoluwa'],
+  jobTitle: 'CRM, Automation & Digital Marketing Specialist',
+  siteUrl: 'https://anjolaoluwaadekola.com',
+  basedIn: { country: 'Nigeria', countryCode: 'NG' },
   description: 'Digital marketing, CRM, automation and connected systems that help businesses grow.',
   email: 'adekolaanjolaoluwablessing@gmail.com',
   whatsappUrl: 'https://wa.me/2347057289672?text=Hello%20Anjolaoluwa%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.',
@@ -9,6 +15,13 @@ export const siteConfig = {
   upwork: 'https://www.upwork.com/freelancers/anjolaoluwa',
   otherSocials: [] as { label: string; url: string }[],
   availability: 'Available for select projects',
+  // Homepage stats row (just below the hero). Edit the value or label; keep symbols such as $, K, + and %
+  // in the value and they stay in place while the number counts up. Years of experience update every January.
+  stats: [
+    { value: `${new Date().getFullYear() - 2022}+`, label: 'Years of experience' },
+    { value: '140+', label: 'Jobs completed' },
+    { value: '$10K+', label: 'Revenue Generated for Clients' },
+  ],
   // Web3Forms access key (public by design; it only routes messages to the email above). Leave '' to disable sending.
   formAccessKey: '29f395ba-48df-40a2-8383-379e2ef7bd4c',
   // Google Calendar appointment schedule embed link (the src from 'Inline booking page'). Leave '' to hide the booking section.

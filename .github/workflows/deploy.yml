@@ -31,12 +31,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      # The build prerenders every page to its own index.html (real 200 status) and
+      # writes 404.html, sitemap.xml and llms.txt. See scripts/prerender.mjs.
       - name: Build
         run: npm run build
-      # GitHub Pages has no rewrite rules. Serving the app as the 404 page lets
-      # direct visits to /services/... and /portfolio/... load the right page.
-      - name: Add SPA fallback
-        run: cp dist/index.html dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Upload artifact
